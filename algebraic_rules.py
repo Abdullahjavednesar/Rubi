@@ -115,19 +115,19 @@ rule30 = ReplacementRule(pattern30, lambda a, b, c, d, n:  - (c + d*x)**(n + 1)/
 
 ## rest rules 1.2 algebraic
 
-patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x),, FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d) and RationalQ(m, n) and m< - 1 and n>0 and Not(IntegerQ(n) and Not(IntegerQ(m))) and 
-  Not(IntegerQ(m + n) and m + n + 2<=0 and (FractionQ(m) or 2*n + m + 1>=0)) and IntLinearcQ(a, b, c, d, m, n, x))
+patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x),, FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d) and RationalQ(m, n) and m< - 1 and n>0 and not(IntegerQ(n) and not(IntegerQ(m))) and 
+  not(IntegerQ(m + n) and m + n + 2<=0 and (FractionQ(m) or 2*n + m + 1>=0)) and IntLinearcQ(a, b, c, d, m, n, x))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (a + b*x)**(m + 1)*(c + d*x)**n/(b*(m + 1))  -  
   d*n/(b*(m + 1))* Pattern(Int((a + b*x)**(m + 1)*(c + d*x)**(n - 1), x)))
 
 patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d) and RationalQ(m, n) and m< - 1 and 
-  Not(n< - 1 and (ZeroQ(a) or NonzeroQ(c) and m<n and IntegerQ(n))) and IntLinearcQ(a, b, c, d, m, n, x))
+  not(n< - 1 and (ZeroQ(a) or NonzeroQ(c) and m<n and IntegerQ(n))) and IntLinearcQ(a, b, c, d, m, n, x))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (a + b*x)**(m + 1)*(c + d*x)**(n + 1)/((b*c - a*d)*(m + 1))  -  
   d*(m + n + 2)/((b*c - a*d)*(m + 1))* Pattern(Int((a + b*x)**(m + 1)*(c + d*x)**n, x)))
 
 patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d) and RationalQ(m, n) and n>0 and m + n + 1!=0 and 
-  Not(PositiveIntegerQ(m) and (Not(IntegerQ(n)) or 0<m<n)) and 
-  Not(IntegerQ(m + n) and m + n + 2<0) and IntLinearcQ(a, b, c, d, m, n, x))
+  not(PositiveIntegerQ(m) and (not(IntegerQ(n)) or 0<m<n)) and 
+  not(IntegerQ(m + n) and m + n + 2<0) and IntLinearcQ(a, b, c, d, m, n, x))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (a + b*x)**(m + 1)*(c + d*x)**n/(b*(m + n + 1))  +  
   n*(b*c - a*d)/(b*(m + n + 1))* Pattern(Int((a + b*x)**m*(c + d*x)**(n - 1), x)))
 
@@ -135,13 +135,13 @@ patternx = Pattern(Int(1/(Sqrt(a_ + b_*x_)*Sqrt(c_ + d_*x_)), x), FreeQ((a, b, c
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: Pattern(Int(1/Sqrt(a*c - b*(a - c)*x - b**2*x**2), x)))
 
 patternx = Pattern(Int(1/(Sqrt(a_ + b_*x_)*Sqrt(c_ + d_*x_)), x), FreeQ((a, b, c, d), x) and PositiveQ(b*c - a*d) and PositiveQ(b))
-rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: 2/Sqrt(b)*SubstPattern(Int(1/Sqrt(b*c - a*d + d*x**2), x), x, Sqrt(a + b*x)))
+rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: 2/Sqrt(b)*Subst(Pattern(Int(1/Sqrt(b*c - a*d + d*x**2), x), x, Sqrt(a + b*x))))
 
 patternx = Pattern(Int(1/(Sqrt(a_ + b_*x_)*Sqrt(c_ + d_*x_)), x), FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d) and ZeroQ(b - d))
-rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: 2/b*SubstPattern(Int(1/Sqrt(c - a + x**2), x), x, Sqrt(a + b*x)))
+rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: 2/b*Subst(Pattern(Int(1/Sqrt(c - a + x**2), x), x, Sqrt(a + b*x))))
 
 patternx = Pattern(Int(1/(Sqrt(a_ + b_*x_)*Sqrt(c_ + d_*x_)), x), FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d))
-rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: 2*SubstPattern(Int(1/(b - d*x**2), x), x, Sqrt(a + b*x)/Sqrt(c + d*x)))
+rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: 2*Subst(Pattern(Int(1/(b - d*x**2), x), x, Sqrt(a + b*x)/Sqrt(c + d*x))))
 
 patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**m_, x), FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d) and RationalQ(m) and  - 1<m<0 and 3<=Denominator(m)<=4)
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (a + b*x)**m*(c + d*x)**m/(a*c + (b*c + a*d)*x + b*d*x**2)**m* Pattern(Int((a*c + (b*c + a*d)*x + b*d*x**2)**m, x)))
@@ -160,44 +160,44 @@ rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: With((q=Rt( - d/b,
 
 patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d) and RationalQ(m, n) and  - 1<m<0 and m + n + 1==0)
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: With((p=Denominator(m)), 
-  p*SubstPattern(Int(x**(p*(m + 1) - 1)/(b - d*x**p), x), x, (a + b*x)**(1/p)/(c + d*x)**(1/p))))
+  p*Subst(Pattern(Int(x**(p*(m + 1) - 1)/(b - d*x**p), x), x, (a + b*x)**(1/p)/(c + d*x)**(1/p)))))
 
 patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x),, FreeQ((a, b, c, d), x) and NonzeroQ(b*c - a*d) and RationalQ(m, n) and  - 1<m<0 and  - 1<n<0 and Denominator(n)<=Denominator(m) and 
   IntLinearcQ(a, b, c, d, m, n, x))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: With((p=Denominator(m)), 
-  p/b*SubstPattern(Int(x**(p*(m + 1) - 1)*(c - a*d/b + d*x**p/b)**n, x), x, (a + b*x)**(1/p))))
+  p/b*Subst(Pattern(Int(x**(p*(m + 1) - 1)*(c - a*d/b + d*x**p/b)**n, x), x, (a + b*x)**(1/p)))))
 
 patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((a, b, c, d, m, n), x) and NonzeroQ(b*c - a*d) and NegativeIntegerQ(Simplify(m + n + 2)) and NonzeroQ(m + 1) and 
-  (SumSimplerQ(m, 1) or Not(SumSimplerQ(n, 1))))
+  (SumSimplerQ(m, 1) or not(SumSimplerQ(n, 1))))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (a + b*x)**(m + 1)*(c + d*x)**(n + 1)/((b*c - a*d)*(m + 1))  -  
   d*Simplify(m + n + 2)/((b*c - a*d)*(m + 1))* Pattern(Int((a + b*x)**Simplify(m + 1)*(c + d*x)**n, x)))
 
-patternx = Pattern(Int((b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((b, c, d, m, n), x) and Not(IntegerQ(m)) and (IntegerQ(n) or PositiveQ(c) and Not(ZeroQ(n + 1/2) and ZeroQ(c**2 - d**2) and PositiveQ( - d/(b*c)))))
+patternx = Pattern(Int((b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((b, c, d, m, n), x) and not(IntegerQ(m)) and (IntegerQ(n) or PositiveQ(c) and not(ZeroQ(n + 1/2) and ZeroQ(c**2 - d**2) and PositiveQ( - d/(b*c)))))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: c**n*(b*x)**(m + 1)/(b*(m + 1))*Hypergeometric2F1( - n, m + 1, m + 2,  - d*x/c)) 
 
 
-patternx = Pattern(Int((b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((b, c, d, m, n), x) and Not(IntegerQ(n)) and (IntegerQ(m) or PositiveQ( - d/(b*c)))) 
+patternx = Pattern(Int((b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((b, c, d, m, n), x) and not(IntegerQ(n)) and (IntegerQ(m) or PositiveQ( - d/(b*c)))) 
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (c + d*x)**(n + 1)/(d*(n + 1)*( - d/(b*c))**m)*Hypergeometric2F1( - m, n + 1, n + 2, 1 + d*x/c)) 
 
 
-patternx = Pattern(Int((b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((b, c, d, m, n), x) and Not(IntegerQ(m)) and Not(IntegerQ(n)) and Not(PositiveQ(c)) and Not(PositiveQ( - d/(b*c))) and 
-  (RationalQ(m) and Not(ZeroQ(n + 1/2) and ZeroQ(c**2 - d**2)) or Not(RationalQ(n))))
+patternx = Pattern(Int((b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((b, c, d, m, n), x) and not(IntegerQ(m)) and not(IntegerQ(n)) and not(PositiveQ(c)) and not(PositiveQ( - d/(b*c))) and 
+  (RationalQ(m) and not(ZeroQ(n + 1/2) and ZeroQ(c**2 - d**2)) or not(RationalQ(n))))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: c**IntPart(n)*(c + d*x)**FracPart(n)/(1 + d*x/c)**FracPart(n)* Pattern(Int((b*x)**m*(1 + d*x/c)**n, x)))
 
-patternx = Pattern(Int((b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((b, c, d, m, n), x) and Not(IntegerQ(m)) and Not(IntegerQ(n)) and Not(PositiveQ(c)) and Not(PositiveQ( - d/(b*c))))
+patternx = Pattern(Int((b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((b, c, d, m, n), x) and not(IntegerQ(m)) and not(IntegerQ(n)) and not(PositiveQ(c)) and not(PositiveQ( - d/(b*c))))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: ( - b*c/d)**IntPart(m)*(b*x)**FracPart(m)/( - d*x/c)**FracPart(m)* Pattern(Int(( - d*x/c)**m*(c + d*x)**n, x)))
 
-patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((a, b, c, d, m), x) and NonzeroQ(b*c - a*d) and Not(IntegerQ(m)) and IntegerQ(n))
+patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((a, b, c, d, m), x) and NonzeroQ(b*c - a*d) and not(IntegerQ(m)) and IntegerQ(n))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (b*c - a*d)**n*(a + b*x)**(m + 1)/(b**(n + 1)*(m + 1))*Hypergeometric2F1( - n, m + 1, m + 2,  - d*(a + b*x)/(b*c - a*d)))
 
-patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((a, b, c, d, m, n), x) and NonzeroQ(b*c - a*d) and Not(IntegerQ(m)) and Not(IntegerQ(n)) and PositiveQ(b/(b*c - a*d)) and 
-  (RationalQ(m) or Not(RationalQ(n) and PositiveQ( - d/(b*c - a*d)))))
+patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), FreeQ((a, b, c, d, m, n), x) and NonzeroQ(b*c - a*d) and not(IntegerQ(m)) and not(IntegerQ(n)) and PositiveQ(b/(b*c - a*d)) and 
+  (RationalQ(m) or not(RationalQ(n) and PositiveQ( - d/(b*c - a*d)))))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (a + b*x)**(m + 1)/(b*(m + 1)*(b/(b*c - a*d))**n)*Hypergeometric2F1( - n, m + 1, m + 2,  - d*(a + b*x)/(b*c - a*d)))
 
 patternx = Pattern(Int((a_ + b_*x_)**m_*(c_ + d_*x_)**n_, x), 
-  FreeQ((a, b, c, d, m, n), x) and NonzeroQ(b*c - a*d) and Not(IntegerQ(m)) and Not(IntegerQ(n)) and (RationalQ(m) or Not(SimplerQ(n + 1, m + 1))))
+  FreeQ((a, b, c, d, m, n), x) and NonzeroQ(b*c - a*d) and not(IntegerQ(m)) and not(IntegerQ(n)) and (RationalQ(m) or not(SimplerQ(n + 1, m + 1))))
 rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: (c + d*x)**FracPart(n)/((b/(b*c - a*d))**IntPart(n)*(b*(c + d*x)/(b*c - a*d))**FracPart(n))*
     Pattern(Int((a + b*x)**m*(b*c/(b*c - a*d) + b*d*x/(b*c - a*d))**n, x)))
 
 patternx = Pattern(Int((a_ + b_*u_)**m_*(c_ + d_*u_)**n_, x), FreeQ((a, b, c, d, m, n), x) and LinearQ(u, x) and NonzeroQ(Coefficient(u, x, 0)))
-rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: 1/Coefficient(u, x, 1)*SubstPattern(Int((a + b*x)**m*(c + d*x)**n, x), x, u))
+rulex = ReplacementRule(patternx, lambda a, b, c, d, m, n, x: 1/Coefficient(u, x, 1)*Subst(Pattern(Int((a + b*x)**m*(c + d*x)**n, x), x, u)))
