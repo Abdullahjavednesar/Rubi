@@ -1,3 +1,4 @@
+from sympy.abc import a, b, c, d, n, m 
 # Maple integration test file: "1 Algebraic functions\1 Linear products\1.2 (a + b x)**m (c + d x)**n.txt"
 
 #lst:=[
